@@ -76,8 +76,26 @@ public class StudentDBUtils {
         }
 
     }
-    public boolean updateData(Student student){
-        return false;
-    }
 
-}
+    public boolean updateData(Student student) {
+            if (connection != null) {
+                String query = "UPDATE Student Set namel=?, address=?, sem=?, roll=? where id = ?";
+                try {
+
+                    preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, student.getName());
+                    preparedStatement.setString(2, student.getAddress());
+                    preparedStatement.setInt(3, student.getSem());
+                    preparedStatement.setInt(4, student.getRoll());
+                    preparedStatement.setInt(5, student.getId());
+
+                    preparedStatement.executeUpdate();
+                    connection.close();
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            return false;
+        }
+    }
